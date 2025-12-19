@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AsanaPro: Digital Real Estate Infographic</title>
+    <title>AsanaPro: Revolusi Kepemilikan Properti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -21,6 +21,7 @@
             background-color: #0f172a;
             color: #f8fafc;
             scroll-behavior: smooth;
+            padding-top: 80px;
         }
 
         .chart-container {
@@ -29,7 +30,6 @@
             max-width: 600px;
             margin: 0 auto;
             height: 350px;
-            max-height: 400px;
         }
 
         .glass-card {
@@ -41,7 +41,7 @@
 
         .glass-card:hover {
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
             transform: translateY(-4px);
         }
 
@@ -57,276 +57,321 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Custom UI Elements without SVG */
-        .icon-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            font-size: 24px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        #mobile-menu {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 40;
+        }
+
+        .token-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Language Switcher & Nav -->
+    <!-- Navigasi -->
     <nav class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-700">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <span class="text-2xl">⚡</span>
-                <span class="font-extrabold text-xl tracking-tighter">ASANA<span class="text-indigo-500">PRO</span></span>
+                <span class="font-extrabold text-xl tracking-tighter uppercase">ASANA<span class="text-indigo-500">PRO</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a href="#hero" class="nav-link" id="m-home">Beranda</a>
+                <a href="#concept" class="nav-link" id="m-concept">Konsep</a>
+                <a href="#comparison" class="nav-link" id="m-comp">Keunggulan</a>
+                <a href="#legal" class="nav-link" id="m-legal">Hukum</a>
             </div>
             
-            <div class="flex items-center bg-slate-800 p-1 rounded-full border border-slate-700">
-                <button onclick="setLanguage('id')" id="btn-id" class="px-4 py-1 rounded-full text-xs font-bold transition-all lang-active">ID</button>
-                <button onclick="setLanguage('en')" id="btn-en" class="px-4 py-1 rounded-full text-xs font-bold transition-all">EN</button>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center bg-slate-800 p-1 rounded-full border border-slate-700">
+                    <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-[10px] font-bold transition-all lang-active">ID</button>
+                    <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-[10px] font-bold transition-all">EN</button>
+                </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-slate-300">☰</button>
             </div>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden flex flex-col p-6 space-y-6 text-center font-bold">
+        <a href="#hero" onclick="toggleMobileMenu()" id="mm-home">Beranda</a>
+        <a href="#concept" onclick="toggleMobileMenu()" id="mm-concept">Konsep</a>
+        <a href="#comparison" onclick="toggleMobileMenu()" id="mm-comp">Keunggulan</a>
+        <a href="#legal" onclick="toggleMobileMenu()" id="mm-legal">Hukum</a>
+    </div>
+
     <!-- Hero Section -->
-    <header class="pt-32 pb-20 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
-                <span id="t-hero-1">Masa Depan Properti Ada di</span><br>
-                <span class="gradient-text" id="t-hero-2">Genggaman Anda</span>
+    <header id="hero" class="pt-16 pb-20 px-4 text-center">
+        <div class="max-w-5xl mx-auto">
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase" id="t-badge">
+                Demokratisasi Aset Properti
+            </div>
+            <h1 class="text-4xl md:text-7xl font-black mb-6 leading-tight">
+                <span id="t-hero-1">Dari Sudirman ke Bali,</span><br>
+                <span class="gradient-text" id="t-hero-2">Semua Dalam Genggaman</span>
             </h1>
-            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto" id="t-hero-desc">
-                Investasi real estat komersial kini terjangkau melalui kekuatan tokenisasi blockchain.
+            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-3xl mx-auto" id="t-hero-desc">
+                Bukan mimpi lagi memiliki gedung perkantoran atau villa mewah. Mulai dari Rp 1 juta, miliki kepemilikan sah yang menghasilkan uang sewa setiap bulan.
             </p>
-            <div class="flex justify-center gap-4">
-                <div class="glass-card p-4 rounded-2xl flex flex-col items-center w-32 md:w-40">
-                    <span class="text-3xl mb-2">💎</span>
-                    <span class="text-xs text-slate-400 font-bold uppercase" id="t-stat-1">Modal</span>
-                    <span class="text-xl font-bold">Rp 1jt</span>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="text-indigo-400 text-3xl mb-2">🏢</div>
+                    <div class="text-xs text-slate-500 font-bold uppercase mb-1" id="t-stat-1">Aset Premium</div>
+                    <div class="text-xl font-bold">Sudirman-Bali</div>
                 </div>
-                <div class="glass-card p-4 rounded-2xl flex flex-col items-center w-32 md:w-40">
-                    <span class="text-3xl mb-2">🚀</span>
-                    <span class="text-xs text-slate-400 font-bold uppercase" id="t-stat-2">Likuiditas</span>
-                    <span class="text-xl font-bold">Instant</span>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="text-amber-400 text-3xl mb-2">💰</div>
+                    <div class="text-xs text-slate-500 font-bold uppercase mb-1" id="t-stat-2">Mulai Dari</div>
+                    <div class="text-xl font-bold">Rp 1 Juta</div>
                 </div>
-                <div class="glass-card p-4 rounded-2xl flex flex-col items-center w-32 md:w-40">
-                    <span class="text-3xl mb-2">🛡️</span>
-                    <span class="text-xs text-slate-400 font-bold uppercase" id="t-stat-3">Keamanan</span>
-                    <span class="text-xl font-bold">Legal</span>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="text-emerald-400 text-3xl mb-2">📊</div>
+                    <div class="text-xs text-slate-500 font-bold uppercase mb-1" id="t-stat-3">Passive Income</div>
+                    <div class="text-xl font-bold" id="t-stat-3-val">Sewa Bulanan</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="text-purple-400 text-3xl mb-2">⚖️</div>
+                    <div class="text-xs text-slate-500 font-bold uppercase mb-1" id="t-stat-4">Regulasi</div>
+                    <div class="text-xl font-bold">POJK 27/2024</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 pb-20 space-y-24">
+    <main class="max-w-7xl mx-auto px-4 pb-20 space-y-32">
 
-        <!-- Section 1: Distribution -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <div class="icon-box">📊</div>
-                <h2 class="text-3xl font-bold" id="t-sec1-title">Distribusi Token Aset</h2>
-                <p class="text-slate-400 leading-relaxed" id="t-sec1-desc">
-                    Kami membagi satu aset fisik (seperti gedung perkantoran atau gudang) menjadi ribuan token digital yang mewakili hak ekonomi atas aset tersebut.
-                </p>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/30">
-                        <span class="block text-2xl font-bold text-indigo-400">80%</span>
-                        <span class="text-xs font-bold text-slate-300" id="t-sec1-sub1">Publik Ritel</span>
-                    </div>
-                    <div class="p-4 bg-amber-500/10 rounded-xl border border-amber-500/30">
-                        <span class="block text-2xl font-bold text-amber-400">15%</span>
-                        <span class="text-xs font-bold text-slate-300" id="t-sec1-sub2">Developer</span>
+        <!-- Section 1: The Concept (The 10k Token) -->
+        <section id="concept" class="scroll-mt-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <h2 class="text-4xl font-extrabold leading-tight" id="t-sec1-title">Satu Properti, Ribuan Kepingan Keberuntungan</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed" id="t-sec1-desc">
+                        Kami memecah satu properti (seperti Ruko Rp 50 Miliar) menjadi 5 juta "Kepingan Digital" (Token). Satu keping hanya Rp 10.000!
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700">
+                            <div class="h-12 w-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-2xl">💎</div>
+                            <div>
+                                <h4 class="font-bold text-slate-200" id="t-step1-h">Beli Kepingan (Token)</h4>
+                                <p class="text-sm text-slate-400" id="t-step1-p">Miliki unit sesuai budget Anda melalui aplikasi.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700">
+                            <div class="h-12 w-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-2xl">💵</div>
+                            <div>
+                                <h4 class="font-bold text-slate-200" id="t-step2-h">Dapatkan Hasil Sewa</h4>
+                                <p class="text-sm text-slate-400" id="t-step2-p">Dividen dari penyewa gedung cair setiap bulan.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="glass-card p-6 rounded-3xl">
-                <div class="chart-container">
-                    <canvas id="distributionChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 2: Competitive Analysis -->
-        <section class="bg-slate-800/50 rounded-[2.5rem] p-8 md:p-16 border border-slate-700">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-extrabold mb-4" id="t-sec2-title">Tokenisasi vs Investasi Tradisional</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto" id="t-sec2-desc">Mengapa model AsanaPro mengungguli metode lama dalam hal fleksibilitas dan keuntungan.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="glass-card p-8 rounded-3xl bg-slate-900/50">
+                <div class="glass-card p-8 rounded-[2rem] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 bg-indigo-600 text-[10px] font-black uppercase tracking-tighter">Live Concept</div>
                     <div class="chart-container">
-                        <canvas id="comparisonChart"></canvas>
+                        <canvas id="tokenChart"></canvas>
                     </div>
-                </div>
-                <div class="space-y-4 flex flex-col justify-center">
-                    <div class="flex gap-4 p-4 rounded-2xl hover:bg-slate-700/50 transition">
-                        <div class="text-2xl">💰</div>
-                        <div>
-                            <h4 class="font-bold text-indigo-400" id="t-feat1-title">Tanpa Minimum Tinggi</h4>
-                            <p class="text-sm text-slate-400" id="t-feat1-desc">Lupakan DP ratusan juta. Mulai dengan dana minimal.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 p-4 rounded-2xl hover:bg-slate-700/50 transition">
-                        <div class="text-2xl">🔓</div>
-                        <div>
-                            <h4 class="font-bold text-emerald-400" id="t-feat2-title">Likuiditas Global</h4>
-                            <p class="text-sm text-slate-400" id="t-feat2-desc">Jual token Anda kapan saja di bursa digital kami.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 p-4 rounded-2xl hover:bg-slate-700/50 transition">
-                        <div class="text-2xl">📋</div>
-                        <div>
-                            <h4 class="font-bold text-amber-400" id="t-feat3-title">Manajemen Otomatis</h4>
-                            <p class="text-sm text-slate-400" id="t-feat3-desc">Dividen sewa dikirim otomatis via smart contract.</p>
-                        </div>
+                    <div class="mt-6 text-center">
+                        <span class="text-xs text-slate-500 uppercase font-bold" id="t-chart-note">Simulasi Aset Rp 50M</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Risk Management Flowchart -->
-        <section>
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold" id="t-sec3-title">Keamanan & Mitigasi Risiko</h2>
+        <!-- Section 2: Why Now? (Regulasi & Market) -->
+        <section id="comparison" class="bg-indigo-600/5 rounded-[3rem] p-8 md:p-16 border border-indigo-500/10 scroll-mt-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black mb-4" id="t-sec2-title">Mengapa Sekarang Saatnya?</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto" id="t-sec2-desc">Teknologi blockchain telah matang dan payung hukum Indonesia kini mendukung penuh inklusivitas ekonomi.</p>
             </div>
             
-            <!-- Custom HTML Diagram (No SVG/Mermaid) -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4 max-w-5xl mx-auto">
-                <div class="w-full md:w-64 glass-card p-6 rounded-2xl text-center border-t-4 border-indigo-500">
-                    <span class="block text-3xl mb-2">🏢</span>
-                    <h4 class="font-bold mb-1" id="t-step1-title">Asset Fisik</h4>
-                    <p class="text-xs text-slate-400" id="t-step1-desc">Audit legal & KJPP terdaftar OJK</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1 glass-card p-6 rounded-3xl">
+                    <div class="chart-container">
+                        <canvas id="marketChart"></canvas>
+                    </div>
                 </div>
-                <div class="hidden md:block text-slate-600 text-2xl">➜</div>
-                <div class="w-full md:w-64 glass-card p-6 rounded-2xl text-center border-t-4 border-amber-500">
-                    <span class="block text-3xl mb-2">📜</span>
-                    <h4 class="font-bold mb-1" id="t-step2-title">SPV / KIK-DIRE</h4>
-                    <p class="text-xs text-slate-400" id="t-step2-desc">Struktur hukum pemisahan aset</p>
-                </div>
-                <div class="hidden md:block text-slate-600 text-2xl">➜</div>
-                <div class="w-full md:w-64 glass-card p-6 rounded-2xl text-center border-t-4 border-emerald-500">
-                    <span class="block text-3xl mb-2">📱</span>
-                    <h4 class="font-bold mb-1" id="t-step3-title">Token Digital</h4>
-                    <p class="text-xs text-slate-400" id="t-step3-desc">Bukti kepemilikan di Blockchain</p>
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-700">
+                        <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                            <span class="text-indigo-500">✔</span> <span id="t-why-1-h">Inklusif (Mulai 1 Juta)</span>
+                        </h4>
+                        <p class="text-sm text-slate-400" id="t-why-1-p">Dulu butuh DP Miliaran, sekarang cukup modal sepatu premium.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-700">
+                        <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                            <span class="text-indigo-500">✔</span> <span id="t-why-2-h">Likuiditas Tinggi</span>
+                        </h4>
+                        <p class="text-sm text-slate-400" id="t-why-2-p">Jual kepingan Anda di bursa aplikasi, tidak perlu menunggu bertahun-tahun.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-700">
+                        <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                            <span class="text-indigo-500">✔</span> <span id="t-why-3-h">Transparansi Blockchain</span>
+                        </h4>
+                        <p class="text-sm text-slate-400" id="t-why-3-p">Semua transaksi tercatat permanen dan tidak bisa dimanipulasi.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Revenue & Market -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="glass-card p-8 rounded-3xl">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                    <span class="text-indigo-400">●</span> <span id="t-chart-mkt">Minat Pasar per Segmen</span>
-                </h3>
-                <div class="chart-container">
-                    <canvas id="marketChart"></canvas>
-                </div>
+        <!-- Section 3: Legal & Security -->
+        <section id="legal" class="scroll-mt-24">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold" id="t-sec3-title">Struktur Hukum & Keamanan</h2>
             </div>
-            <div class="glass-card p-8 rounded-3xl">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                    <span class="text-amber-400">●</span> <span id="t-chart-rev">Model Pendapatan Platform</span>
-                </h3>
-                <div class="chart-container">
-                    <canvas id="revenueChart"></canvas>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-3xl border-b-4 border-indigo-500">
+                    <div class="text-4xl mb-4">🏛️</div>
+                    <h3 class="text-lg font-bold mb-2">POJK 27/2024</h3>
+                    <p class="text-sm text-slate-400" id="t-legal-1">Payung hukum Securities Crowdfunding yang menjamin keamanan investor ritel.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl border-b-4 border-amber-500">
+                    <div class="text-4xl mb-4">📂</div>
+                    <h3 class="text-lg font-bold mb-2">KIK-DIRE / SPV</h3>
+                    <p class="text-sm text-slate-400" id="t-legal-2">Struktur pemisahan aset yang memastikan aset tetap aman meskipun platform berhenti beroperasi.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl border-b-4 border-emerald-500">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-lg font-bold mb-2">Audit Independen</h3>
+                    <p class="text-sm text-slate-400" id="t-legal-3">Penilaian aset secara berkala oleh KJPP (Kantor Jasa Penilai Publik) terdaftar OJK.</p>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-slate-900 border-t border-slate-800 py-16 text-center">
-        <div class="max-w-xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-4" id="t-footer-title">Siap Memulai?</h2>
-            <p class="text-slate-400 mb-10" id="t-footer-desc">Jadilah bagian dari revolusi ekonomi properti hari ini.</p>
-            <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-10 rounded-full transition-all shadow-lg shadow-indigo-500/20" id="t-footer-btn">
-                Gabung Waitlist
-            </button>
-            <p class="mt-12 text-xs text-slate-500 font-medium tracking-widest uppercase" id="t-footer-copy">
-                &copy; 2025 ASANAPRO INDONESIA • KEAMANAN BLOCKCHAIN TERJAMIN
-            </p>
+    <footer class="bg-slate-900 border-t border-slate-800 py-20 text-center">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-4xl font-black mb-6" id="t-footer-title">Miliki Masa Depan, Satu Keping Sekaligus.</h2>
+            <p class="text-slate-400 mb-10 text-lg" id="t-footer-desc">Anda bukan lagi penyewa seumur hidup, tapi menjadi pemilik aset yang berkembang.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-black py-4 px-12 rounded-full transition-all text-lg shadow-xl shadow-indigo-600/20" id="t-footer-btn">
+                    Daftar Waitlist
+                </button>
+            </div>
+            <div class="mt-20 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-bold uppercase tracking-widest">
+                <span>WWW.ASANAPRO.ID</span>
+                <span>&copy; 2025 ASANAPRO INDONESIA</span>
+                <span id="t-footer-copy">Masa Depan Investasi Properti</span>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Language Database
         const content = {
             id: {
-                "t-hero-1": "Masa Depan Properti Ada di",
-                "t-hero-2": "Genggaman Anda",
-                "t-hero-desc": "Investasi real estat komersial kini terjangkau melalui kekuatan tokenisasi blockchain.",
-                "t-stat-1": "Modal",
-                "t-stat-2": "Likuiditas",
-                "t-stat-3": "Keamanan",
-                "t-sec1-title": "Distribusi Token Aset",
-                "t-sec1-desc": "Kami membagi satu aset fisik (seperti gedung perkantoran atau gudang) menjadi ribuan token digital yang mewakili hak ekonomi atas aset tersebut.",
-                "t-sec1-sub1": "Publik Ritel",
-                "t-sec1-sub2": "Developer",
-                "t-sec2-title": "Tokenisasi vs Investasi Tradisional",
-                "t-sec2-desc": "Mengapa model AsanaPro mengungguli metode lama dalam hal fleksibilitas dan keuntungan.",
-                "t-feat1-title": "Tanpa Minimum Tinggi",
-                "t-feat1-desc": "Lupakan DP ratusan juta. Mulai dengan dana minimal.",
-                "t-feat2-title": "Likuiditas Global",
-                "t-feat2-desc": "Jual token Anda kapan saja di bursa digital kami.",
-                "t-feat3-title": "Manajemen Otomatis",
-                "t-feat3-desc": "Dividen sewa dikirim otomatis via smart contract.",
-                "t-sec3-title": "Keamanan & Mitigasi Risiko",
-                "t-step1-title": "Asset Fisik",
-                "t-step1-desc": "Audit legal & KJPP terdaftar OJK",
-                "t-step2-title": "SPV / KIK-DIRE",
-                "t-step2-desc": "Struktur hukum pemisahan aset",
-                "t-step3-title": "Token Digital",
-                "t-step3-desc": "Bukti kepemilikan di Blockchain",
-                "t-chart-mkt": "Minat Pasar per Segmen",
-                "t-chart-rev": "Model Pendapatan Platform",
-                "t-footer-title": "Siap Memulai?",
-                "t-footer-desc": "Jadilah bagian dari revolusi ekonomi properti hari ini.",
-                "t-footer-btn": "Gabung Waitlist",
-                "t-footer-copy": "© 2025 ASANAPRO INDONESIA • KEAMANAN BLOCKCHAIN TERJAMIN",
+                "m-home": "Beranda", "m-concept": "Konsep", "m-comp": "Keunggulan", "m-legal": "Hukum",
+                "mm-home": "Beranda", "mm-concept": "Konsep", "mm-comp": "Keunggulan", "mm-legal": "Hukum",
+                "t-badge": "Demokratisasi Aset Properti",
+                "t-hero-1": "Dari Sudirman ke Bali,",
+                "t-hero-2": "Semua Dalam Genggaman",
+                "t-hero-desc": "Bukan mimpi lagi memiliki gedung perkantoran atau villa mewah. Mulai dari Rp 1 juta, miliki kepemilikan sah yang menghasilkan uang sewa setiap bulan.",
+                "t-stat-1": "Lokasi Aset",
+                "t-stat-2": "Modal Awal",
+                "t-stat-3": "Hasil Investasi",
+                "t-stat-3-val": "Sewa Bulanan",
+                "t-stat-4": "Payung Hukum",
+                "t-sec1-title": "Satu Properti, Ribuan Kepingan Keberuntungan",
+                "t-sec1-desc": "Kami memecah satu properti (seperti Ruko Rp 50 Miliar) menjadi 5 juta 'Kepingan Digital' (Token). Satu keping hanya Rp 10.000!",
+                "t-step1-h": "Beli Kepingan (Token)",
+                "t-step1-p": "Miliki unit sesuai budget Anda melalui aplikasi.",
+                "t-step2-h": "Dapatkan Hasil Sewa",
+                "t-step2-p": "Dividen dari penyewa gedung cair setiap bulan.",
+                "t-chart-note": "Simulasi Aset Rp 50M (5 Juta Keping)",
+                "t-sec2-title": "Mengapa Sekarang Saatnya?",
+                "t-sec2-desc": "Teknologi blockchain telah matang dan payung hukum Indonesia kini mendukung penuh inklusivitas ekonomi.",
+                "t-why-1-h": "Inklusif (Mulai 1 Juta)",
+                "t-why-1-p": "Dulu butuh DP Miliaran, sekarang cukup modal sepatu premium.",
+                "t-why-2-h": "Likuiditas Tinggi",
+                "t-why-2-p": "Jual kepingan Anda di bursa aplikasi, tidak perlu menunggu bertahun-tahun.",
+                "t-why-3-h": "Transparansi Blockchain",
+                "t-why-3-p": "Semua transaksi tercatat permanen dan tidak bisa dimanipulasi.",
+                "t-sec3-title": "Struktur Hukum & Keamanan",
+                "t-legal-1": "Payung hukum Securities Crowdfunding yang menjamin keamanan investor ritel.",
+                "t-legal-2": "Struktur pemisahan aset yang memastikan aset tetap aman meskipun platform berhenti beroperasi.",
+                "t-legal-3": "Penilaian aset secara berkala oleh KJPP terdaftar OJK.",
+                "t-footer-title": "Miliki Masa Depan, Satu Keping Sekaligus.",
+                "t-footer-desc": "Anda bukan lagi penyewa seumur hidup, tapi menjadi pemilik aset yang berkembang.",
+                "t-footer-btn": "Daftar Waitlist Sekarang",
+                "t-footer-copy": "Masa Depan Investasi Properti",
                 "labels": {
-                    "dist": ["Publik (Ritel)", "Pengembang", "Likuiditas", "Operasional"],
-                    "comp": ["Likuiditas", "Modal Awal", "Kemudahan", "Hasil Sewa", "Transparansi"],
-                    "mkt": ["Gen Z", "Milenial", "Gen X", "Institusi"],
-                    "rev": ["Biaya Listing", "Biaya Transaksi", "Manajemen Aset"]
+                    "token": ["Kepingan Investor (80%)", "Kepingan Developer (15%)", "Cadangan Likuiditas (5%)"],
+                    "market": ["Melek Teknologi (Gen Z/M)", "Investor Properti", "Pencari Passive Income"]
                 }
             },
             en: {
-                "t-hero-1": "The Future of Property in",
-                "t-hero-2": "The Palm of Your Hand",
-                "t-hero-desc": "Commercial real estate investment is now affordable through the power of blockchain tokenization.",
-                "t-stat-1": "Capital",
-                "t-stat-2": "Liquidity",
-                "t-stat-3": "Security",
-                "t-sec1-title": "Asset Token Distribution",
-                "t-sec1-desc": "We split a single physical asset (like an office building or warehouse) into thousands of digital tokens representing economic rights.",
-                "t-sec1-sub1": "Retail Public",
-                "t-sec1-sub2": "Developer",
-                "t-sec2-title": "Tokenization vs Traditional",
-                "t-sec2-desc": "Why AsanaPro's model outperforms old methods in flexibility and profitability.",
-                "t-feat1-title": "No High Minimums",
-                "t-feat1-desc": "Forget huge down payments. Start with minimal capital.",
-                "t-feat2-title": "Global Liquidity",
-                "t-feat2-desc": "Sell your tokens anytime on our digital exchange.",
-                "t-feat3-title": "Auto Management",
-                "t-feat3-desc": "Rental dividends sent automatically via smart contracts.",
-                "t-sec3-title": "Security & Risk Mitigation",
-                "t-step1-title": "Physical Asset",
-                "t-step1-desc": "Legal audit & OJK-registered appraisers",
-                "t-step2-title": "SPV / REIT Structure",
-                "t-step2-desc": "Legal asset segregation structure",
-                "t-step3-title": "Digital Token",
-                "t-step3-desc": "Proof of ownership on Blockchain",
-                "t-chart-mkt": "Market Interest by Segment",
-                "t-chart-rev": "Platform Revenue Model",
-                "t-footer-title": "Ready to Start?",
-                "t-footer-desc": "Be part of the property economy revolution today.",
-                "t-footer-btn": "Join Waitlist",
-                "t-footer-copy": "© 2025 ASANAPRO INDONESIA • BLOCKCHAIN SECURITY GUARANTEED",
+                "m-home": "Home", "m-concept": "Concept", "m-comp": "Advantages", "m-legal": "Legal",
+                "mm-home": "Home", "mm-concept": "Concept", "mm-comp": "Advantages", "mm-legal": "Legal",
+                "t-badge": "Democratizing Property Assets",
+                "t-hero-1": "From Sudirman to Bali,",
+                "t-hero-2": "All in Your Hands",
+                "t-hero-desc": "Owning office buildings or luxury villas is no longer a dream. Starting from IDR 1 million, own a legal share that generates monthly rent.",
+                "t-stat-1": "Asset Locations",
+                "t-stat-2": "Starting Capital",
+                "t-stat-3": "Investment Return",
+                "t-stat-3-val": "Monthly Rent",
+                "t-stat-4": "Legal Framework",
+                "t-sec1-title": "One Property, Thousands of Fortune Pieces",
+                "t-sec1-desc": "We split a single property (like a IDR 50 Billion Shop) into 5 million 'Digital Pieces' (Tokens). One piece is only IDR 10,000!",
+                "t-step1-h": "Buy Pieces (Tokens)",
+                "t-step1-p": "Own units according to your budget via the app.",
+                "t-step2-h": "Earn Rental Yield",
+                "t-step2-p": "Dividends from building tenants paid every month.",
+                "t-chart-note": "Simulated IDR 50B Asset (5 Million Pieces)",
+                "t-sec2-title": "Why Now?",
+                "t-sec2-desc": "Blockchain technology is mature and Indonesian laws now fully support economic inclusivity.",
+                "t-why-1-h": "Inclusive (Starts at 1M)",
+                "t-why-1-p": "Used to need billions for DP, now just premium shoes budget.",
+                "t-why-2-h": "High Liquidity",
+                "t-why-2-p": "Sell your pieces on the app exchange, no need to wait for years.",
+                "t-why-3-h": "Blockchain Transparency",
+                "t-why-3-p": "All transactions are permanently recorded and tamper-proof.",
+                "t-sec3-title": "Legal Structure & Security",
+                "t-legal-1": "Securities Crowdfunding laws that guarantee retail investor security.",
+                "t-legal-2": "Asset segregation structure ensures assets stay safe even if the platform stops.",
+                "t-legal-3": "Periodic asset valuation by OJK-registered public appraisers (KJPP).",
+                "t-footer-title": "Own the Future, One Piece at a Time.",
+                "t-footer-desc": "No longer just a lifelong renter, but a growing asset owner.",
+                "t-footer-btn": "Join Waitlist Now",
+                "t-footer-copy": "The Future of Property Investment",
                 "labels": {
-                    "dist": ["Public (Retail)", "Developers", "Liquidity", "Operational"],
-                    "comp": ["Liquidity", "Entry Capital", "Ease of Use", "Rental Yield", "Transparency"],
-                    "mkt": ["Gen Z", "Millennials", "Gen X", "Institutional"],
-                    "rev": ["Listing Fees", "Trading Fees", "Asset Management"]
+                    "token": ["Investor Pieces (80%)", "Developer Pieces (15%)", "Liquidity Reserve (5%)"],
+                    "market": ["Tech-Savvy (Gen Z/M)", "Property Investors", "Passive Income Seekers"]
                 }
             }
         };
@@ -334,172 +379,75 @@
         let currentLang = 'id';
         let charts = {};
 
-        // Chart.js Label Wrapping Helper
-        function wrapLabel(label) {
-            if (typeof label === 'string' && label.length > 16) {
-                const words = label.split(' ');
-                const lines = [];
-                let current = "";
-                words.forEach(w => {
-                    if ((current + w).length > 16) {
-                        lines.push(current.trim());
-                        current = w + " ";
-                    } else {
-                        current += w + " ";
-                    }
-                });
-                lines.push(current.trim());
-                return lines;
-            }
-            return label;
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // Shared Tooltip Config
-        const tooltipConfig = {
-            callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    return Array.isArray(label) ? label.join(' ') : label;
-                }
-            }
-        };
+        function setLanguage(lang) {
+            currentLang = lang;
+            Object.keys(content[lang]).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = content[lang][id];
+            });
+            document.getElementById('btn-id').classList.toggle('lang-active', lang === 'id');
+            document.getElementById('btn-en').classList.toggle('lang-active', lang === 'en');
+            
+            // Update charts
+            charts.token.data.labels = content[lang].labels.token;
+            charts.token.update();
+            charts.market.data.labels = content[lang].labels.market;
+            charts.market.update();
+        }
 
         function initCharts() {
             const l = content[currentLang].labels;
 
-            // 1. Distribution Chart (Doughnut)
-            charts.dist = new Chart(document.getElementById('distributionChart'), {
+            // Token Pie Chart
+            charts.token = new Chart(document.getElementById('tokenChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: l.dist.map(wrapLabel),
+                    labels: l.token,
                     datasets: [{
-                        data: [70, 15, 10, 5],
-                        backgroundColor: ['#6366f1', '#f59e0b', '#10b981', '#64748b'],
+                        data: [80, 15, 5],
+                        backgroundColor: ['#6366f1', '#f59e0b', '#10b981'],
                         borderWidth: 0,
                         hoverOffset: 15
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: { tooltip: tooltipConfig, legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 20 } } }
+                    cutout: '70%',
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 20, font: { weight: 'bold' } } } 
+                    }
                 }
             });
 
-            // 2. Comparison Chart (Radar)
-            charts.comp = new Chart(document.getElementById('comparisonChart'), {
-                type: 'radar',
-                data: {
-                    labels: l.comp.map(wrapLabel),
-                    datasets: [
-                        {
-                            label: 'AsanaPro',
-                            data: [95, 100, 90, 85, 100],
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                            pointBackgroundColor: '#6366f1'
-                        },
-                        {
-                            label: currentLang === 'id' ? 'Konvensional' : 'Traditional',
-                            data: [20, 15, 30, 60, 40],
-                            borderColor: '#94a3b8',
-                            backgroundColor: 'rgba(148, 163, 184, 0.2)',
-                            pointBackgroundColor: '#94a3b8'
-                        }
-                    ]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: '#334155' },
-                            grid: { color: '#334155' },
-                            pointLabels: { color: '#94a3b8', font: { size: 10 } },
-                            ticks: { display: false }
-                        }
-                    },
-                    plugins: { tooltip: tooltipConfig, legend: { labels: { color: '#94a3b8' } } }
-                }
-            });
-
-            // 3. Market Interest (Bar)
-            charts.mkt = new Chart(document.getElementById('marketChart'), {
+            // Market Segments
+            charts.market = new Chart(document.getElementById('marketChart'), {
                 type: 'bar',
                 data: {
-                    labels: l.mkt.map(wrapLabel),
+                    labels: l.market,
                     datasets: [{
-                        label: '% Interest',
-                        data: [92, 88, 54, 40],
-                        backgroundColor: ['#6366f1', '#818cf8', '#94a3b8', '#cbd5e1'],
-                        borderRadius: 12
+                        label: 'Market Readiness %',
+                        data: [90, 75, 85],
+                        backgroundColor: ['#6366f1', '#818cf8', '#6366f1'],
+                        borderRadius: 20
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
                     scales: {
-                        y: { display: false },
-                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                        y: { display: false, grid: { display: false } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { weight: 'bold' } } }
                     },
-                    plugins: { tooltip: tooltipConfig, legend: { display: false } }
-                }
-            });
-
-            // 4. Revenue Model (Pie)
-            charts.rev = new Chart(document.getElementById('revenueChart'), {
-                type: 'pie',
-                data: {
-                    labels: l.rev.map(wrapLabel),
-                    datasets: [{
-                        data: [40, 40, 20],
-                        backgroundColor: ['#f59e0b', '#6366f1', '#10b981'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    plugins: { tooltip: tooltipConfig, legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 20 } } }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // Update Text
-            Object.keys(content[lang]).forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = content[lang][id];
-            });
-
-            // Update UI
-            document.getElementById('btn-id').classList.toggle('lang-active', lang === 'id');
-            document.getElementById('btn-en').classList.toggle('lang-active', lang === 'en');
-
-            // Update Charts
-            const l = content[lang].labels;
-            
-            charts.dist.data.labels = l.dist.map(wrapLabel);
-            charts.dist.update();
-
-            charts.comp.data.labels = l.comp.map(wrapLabel);
-            charts.comp.data.datasets[1].label = lang === 'id' ? 'Konvensional' : 'Traditional';
-            charts.comp.update();
-
-            charts.mkt.data.labels = l.mkt.map(wrapLabel);
-            charts.mkt.update();
-
-            charts.rev.data.labels = l.rev.map(wrapLabel);
-            charts.rev.update();
-        }
-
-        // Initialize on Load
-        window.onload = () => {
-            initCharts();
-        };
-
-        // --- NO SVG AND NO MERMAID JS USED ---
-        // All diagrams are built with pure Tailwind/HTML
+        window.onload = initCharts;
     </script>
 </body>
 </html>
